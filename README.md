@@ -60,17 +60,17 @@ arp 是一个可以实时抓取航空METAR和TAF报文的小型程序包，该�
 ## 使用方法
 ### 单个机场查询
 对于单个机场信息的查询，按以下示例查询   
-`$ python collecter.py ZBAA metar`   
+`$ python collecter.py ZBAA METAR`   
 该命令是查询机场ZBAA（首都国际机场）的最新METAR报文   
 同理，若要查询首都机场的最新TAF报文，可以执行   
-`$ python collecter.py ZBAA taf`   
+`$ python collecter.py ZBAA TAF`   
 
 ### 自动化实时爬取
 若想要自动化实时爬取并保存METAR报文数据，可以执行   
-`$ python oparp.py metar`   
+`$ python oparp.py METAR`   
 或者在服务器上后台运行   
-`$ nohup python oparp.py metar &`   
-同理要爬取TAF报文只需将`metar`换为`taf`即可。   
+`$ nohup python oparp.py METAR &`   
+同理要爬取TAF报文只需将`METAR`换为`TAF`即可。   
 执行该命令以后，程序将按照配置文件`config.json`中的设置，爬取机场列表里所有机场的METAR报文，并将结果以`.json`的格式保存在`realtime_path`、`buffer_path`和`archive_path`路径下。   
 
 #### 实时文件与缓存文件
