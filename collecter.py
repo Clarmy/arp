@@ -163,4 +163,4 @@ def get_rpts(icaos,kind='METAR',source='awc'):
 
 if __name__ == '__main__':
     icao, kind = sys.argv[1], sys.argv[2]
-    print(get_single_rpt(icao,kind,source='avt7'))
+    print(get_single_rpt(icao,kind,source='awc'))

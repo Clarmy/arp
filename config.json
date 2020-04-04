@@ -1,11 +1,11 @@
 {
-  "metar":{
+  "METAR":{
     "log_path":"./data/metar/log/",
     "archive_path":"./data/metar/archive/",
     "buffer_path":"./data/metar/buffer/",
     "realtime_path":"./data/metar/realtime/"
   },
-  "taf":{
+  "TAF":{
     "log_path":"./data/taf/log/",
     "archive_path":"./data/taf/archive/",
     "buffer_path":"./data/taf/buffer/",

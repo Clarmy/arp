@@ -127,7 +127,7 @@ def main():
     while True:
         utcnow = datetime.utcnow()
         # 每隔5分钟爬取一次
-        if utcnow.minute in range(0,60,5):
+        if utcnow.minute in range(0,60,1):
             print('{}: start crawling'.format(datetime.utcnow()))
             logger.info(' start crawling')
             # all文件存储该时次所有已更新和未更新的报文，每一次扫描通过对比all文件判断
