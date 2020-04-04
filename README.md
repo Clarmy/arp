@@ -1,6 +1,6 @@
 # arp
-arp 是一个可以实时抓取航空METAR和TAF报文的小型程序包，该程序包可以进行单个机场的报文查询，也可以进行实时的抓取和保存、归档。其数据源来自于美国航空天气中心[AWC](https://aviationweather.gov/)或[小飞象航空气象网](http://www.avt7.com/)。   
-对于国内机场数据来说，小飞象航空气象网的数据完整性要强于AWC，因此本程序默认情况下使用小飞象航空气象网作为数据源，数据源可以在配置文件中进行配置。
+arp 是一个可以实时抓取航空METAR和TAF报文的小型程序包，该程序包可以进行单个机场的报文查询，也可以进行实时的抓取和保存、归档。其数据源来自于美国航空天气中心[AWC](https://aviationweather.gov/)、[小飞象航空气象网](http://www.avt7.com/)、[中央气象台航空气象网](http://aviation.nmc.cn/)、[东北地区航空气象服务网](http://www.nemcaac.cn/dbinfo/app/common/index)。   
+对于国内机场数据来说，小飞象航空气象网(avt7)、东北地区航空气象服务网(caac)的数据完整性要强于中央气象台航空气象网(nmc)，中央气象台航空气象网的完整性强于AWC(awc)，数据源需要在在调用程序的时候指定。
 
 ## 安装与配置
 该程序包仅支持Python3.x版本，全部使用Python标准库，无需额外安装依赖库，可以直接下载或者使用`git`克隆代码库。文件中包含配置文件`config.json`, 该文件保存了实时抓取程序的配置, 包括保存路径、归档路径、日志路径以及所要抓取的机场列表信息。使用者可以对其内容进行自定义配置。其默认配置如下：
@@ -18,7 +18,6 @@ arp 是一个可以实时抓取航空METAR和TAF报文的小型程序包，该�
     "buffer_path":"./data/taf/buffer/",
     "realtime_path":"./data/taf/realtime/"
   },
-  "source":"avt7",
   "ICAOS":[
     "ZBAA", "ZBNY", "ZBTJ", "ZBSJ", "ZBCD", "ZBHD", "ZBDH", "ZBSN",
     "ZBZJ", "ZBYN", "ZBCZ", "ZBDT", "ZBLF", "ZBLL", "ZBXZ", "ZBYC",
@@ -53,30 +52,32 @@ arp 是一个可以实时抓取航空METAR和TAF报文的小型程序包，该�
   ]
 }
 ```
-其中log_path是日志保存路径；archive_path是归档路径；realtime_path是实时更新保存路径；buffer_path路径保存缓存文件用于对比更新；source是所抓取数据的数据源，目前支持'avt7'和'awc'，默认为'avt7'；ICAOS是所要爬取的机场列表，机场名使用ICAO码。
+其中log_path是日志保存路径；archive_path是归档路径；realtime_path是实时更新保存路径；buffer_path路径保存缓存文件用于对比更新；ICAOS是所要爬取的机场列表，机场名使用ICAO码。
 四个路径可以随意配置，若路径不存在则程序会自动创建(有权限的情况下)。
-机场列表默认为中国（包含港澳台）236个机场。
+机场列表默认为中国（包含港澳台）240个机场。
 
 ## 使用方法
 ### 单个机场查询
 对于单个机场信息的查询，按以下示例查询   
-`$ python collecter.py ZBAA METAR`   
-该命令是查询机场ZBAA（首都国际机场）的最新METAR报文   
+`$ python collecter.py ZBAA METAR avt7`   
+该命令是查询机场ZBAA（首都国际机场）的最新METAR报文，数据源选avt7   
 同理，若要查询首都机场的最新TAF报文，可以执行   
-`$ python collecter.py ZBAA TAF`   
+`$ python collecter.py ZBAA TAF avt7`   
+该命令是查询机场ZBAA（首都国际机场）的最新TAF报文，数据源选avt7   
+几个数据源的代号分别为：avt7（小飞象）、caac（东北航空气象服务网）、nmc（中央气象台航空气象网）、awc（AWC）
 
 ### 自动化实时爬取
 若想要自动化实时爬取并保存METAR报文数据，可以执行   
-`$ python oparp.py METAR`   
+`$ python oparp.py METAR avt7`   
 或者在服务器上后台运行   
-`$ nohup python oparp.py METAR &`   
+`$ nohup python oparp.py METAR avt7 &`   
 同理要爬取TAF报文只需将`METAR`换为`TAF`即可。   
 执行该命令以后，程序将按照配置文件`config.json`中的设置，爬取机场列表里所有机场的METAR报文，并将结果以`.json`的格式保存在`realtime_path`、`buffer_path`和`archive_path`路径下。   
 
 #### 实时文件与缓存文件
 `realtime_path`路径中保存有一个文件：`updated_metars.json`，该文件保存的是最新一次查询相较于上一次查询所更新的机场的报文信息。
 `buffer_path`路径中保存有一个文件：`all_metars.json`，该文件保存有所有机场的最新一次返回的报文。   
-例如某个时次`all_metars.json`中保存有全部236个机场的报文信息(有些机场报文缺少则为空字符串)：   
+例如某个时次`all_metars.json`中保存有全部240个机场的报文信息(有些机场报文缺少则为空字符串)：   
 ```json
 {
     "ZBAA": "METAR ZBAA 180200Z 32002MPS 240V020 CAVOK 05/M13 Q1022 NOSIG=",
@@ -338,7 +339,7 @@ arp 是一个可以实时抓取航空METAR和TAF报文的小型程序包，该�
 最新报文除了会在`updated_metars.json`中不断重写，也会归档保存在`archive_path`目录中，该目录将以日期为文件夹来归档保存，每个文件为最新查询时间，例如`201812050135.json`
 
 #### 日志文件
-日志信息将保存在`log_path`中，每天自动保存为一个文件，当天实时更新的日志名为`taf`或`metar`，非当天的日志名为`metar.20181203.log`形式。   
+日志信息将保存在`log_path`中，每天自动保存为一个文件，当天实时更新的日志名为`TAF`或`METAR`，非当天的日志名为`METAR.20181203.log`形式。   
 日志中   
 `2018-12-05 02:11:43,612:INFO: sleeping`表示程序睡眠中   
 `2018-12-05 02:15:03,676:INFO: start crawling`表示爬虫程序开始查询

@@ -85,11 +85,17 @@ def get_single_rpt(icao,kind='METAR',source='awc'):
         elif source == 'avt7':
             url = 'http://www.avt7.com/Home/'\
             'AirportMetarInfo?airport4Code={0}'.format(icao)
+        elif source == 'nmc':
+            url = f'http://aviation.nmc.cn/json_data/html/{icao}.html'
+        elif source == 'caac':
+            url = f'http://www.nemcaac.cn/dbinfo/app/common/airrpt/query?oneCccc={icao}&type=SA&type=SP&type=FC&type=FT&type=WA&type=WS&hour=0'
+
         return url
 
 
     def parse_rpt(web_code,kind='METAR',source='awc'):
         '''从网页代码中解析出报文数据'''
+        web_code = web_code.replace('\n', ' ')
         if source == 'awc':
             metar_pattern = '[A-Z]{4} \d{6}Z [0-9A-Z\s/]+'
             taf_pattern = 'TAF [A-Z]{4} \d{6}Z[0-9A-Z\s/]+'
@@ -106,7 +112,7 @@ def get_single_rpt(icao,kind='METAR',source='awc'):
                     rpt = re.search(taf_pattern,web_code).group()
                 except AttributeError:
                     rpt = None
-        elif source == 'avt7':
+        elif source in ['avt7', 'caac', 'nmc']:
             metar_pattern = '(METAR|SPECI).+?='
             taf_pattern = 'TAF.+?='
             if kind == 'METAR':
@@ -162,5 +168,5 @@ def get_rpts(icaos,kind='METAR',source='awc'):
 
 
 if __name__ == '__main__':
-    icao, kind = sys.argv[1], sys.argv[2]
-    print(get_single_rpt(icao,kind,source='awc'))
+    icao, kind, source = sys.argv[1], sys.argv[2], sys.argv[3]
+    print(get_single_rpt(icao,kind,source=source))

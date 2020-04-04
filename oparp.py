@@ -19,7 +19,7 @@ import traceback
 import collecter as clt
 
 # 获取报文类型
-kind = sys.argv[1]
+kind, source = sys.argv[1], sys.argv[2]
 
 # 加载配置信息
 with open('./config.json') as f:
@@ -29,7 +29,8 @@ ARCHIVE_PATH = config[kind]['archive_path']
 REALTIME_PATH = config[kind]['realtime_path']
 BUFFER_PATH = config[kind]['buffer_path']
 ICAOS = config['ICAOS']
-SOURCE = config['source']
+# SOURCE = config['source']
+SOURCE = source
 
 
 def check_dirs(path):
@@ -127,7 +128,7 @@ def main():
     while True:
         utcnow = datetime.utcnow()
         # 每隔5分钟爬取一次
-        if utcnow.minute in range(0,60,1):
+        if utcnow.minute in range(0,60,5):
             print('{}: start crawling'.format(datetime.utcnow()))
             logger.info(' start crawling')
             # all文件存储该时次所有已更新和未更新的报文，每一次扫描通过对比all文件判断

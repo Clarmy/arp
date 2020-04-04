@@ -11,9 +11,8 @@
     "buffer_path":"./data/taf/buffer/",
     "realtime_path":"./data/taf/realtime/"
   },
-  "source":"avt7",
   "ICAOS":[
-    "ZBAA", "ZBNY", "ZBTJ", "ZBSJ", "ZBCD", "ZBHD", "ZBDH", "ZBSN",
+    "ZBAA", "ZBAD", "ZBTJ", "ZBSJ", "ZBCD", "ZBHD", "ZBDH", "ZBSN",
     "ZBZJ", "ZBYN", "ZBCZ", "ZBDT", "ZBLF", "ZBLL", "ZBXZ", "ZBYC",
     "ZBHH", "ZBES", "ZBAL", "ZBAR", "ZBYZ", "ZBOW", "ZBCF", "ZBDS",
     "ZBEN", "ZBER", "ZBLA", "ZBHZ", "ZBMZ", "ZBTL", "ZBUH", "ZBUC",
@@ -42,6 +41,6 @@
     "ZWTC", "ZWTP", "ZWNL", "ZWYN", "VHHH", "VMMC", "ZUGY", "ZUAS",
     "ZUBJ", "ZUKJ", "ZULB", "ZUNP", "ZUPS", "ZUTR", "ZUYI", "ZUMT",
     "ZUZY", "ZLXN", "ZLDL", "ZLGM", "ZLGL", "ZLHX", "ZLYS", "ZUGH",
-    "RCSS", "RCKH", "RCTP", "RCYU"
+    "RCSS", "RCKH", "RCTP", "RCYU", "ZHXY", "ZUWS", "ZUBZ", "ZUGZ"
   ]
 }
